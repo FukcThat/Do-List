@@ -3,8 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Do</title>
+    <title>do</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body></body>
+  <body>
+    <nav>
+      <h3>Tasks</h3>
+      <div class="nav-section--line"></div>
+      <h3></h3>
+      <ul class="nav-section--task-filters">
+        <li class="task-filter--option">All</li>
+        <li class="task-filter--option">Today</li>
+        <li class="task-filter--option">This Week</li>
+        <li class="task-filter--option">Overdue</li>
+      </ul>
+      <div class="nav-section--line"></div>
+      <h3>Lists</h3>
+      <div class="nav-section--list-options">
+        <h4 class="list-option--make-list">
+          <span class="plus">+</span><span>Make a list</span>
+        </h4>
+        <ul class="list-option--custom-lists"></ul>
+      </div>
+    </nav>
+    <main>
+      <div class="main-header">
+        <h1>Please, do</h1>
+        <h2 class="main-header--current-filter"></h2>
+        <span class="current-filter--task-amount"></span>
+      </div>
+      <button class="add-task">
+        <span class="plus">+</span><span>Add a new Task</span>
+      </button>
+      <div class="current-task-list"></div>
+    </main>
+    <!-- task making form -->
+    <!-- task details -->
+  </body>
 </html>
