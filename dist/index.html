@@ -3,8 +3,100 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Do</title>
-    <script defer src="main.js"></script>
-  </head>
-  <body></body>
+    <title>do</title>
+    <link rel="stylesheet" href="84bb4fc080631c2605f1.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&family=Encode+Sans:wght@100..900&family=Inclusive+Sans:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+  <script defer src="main.js"></script></head>
+  <body>
+    <nav>
+      <h3>Tasks</h3>
+      <div class="nav-section--line"></div>
+      <h3></h3>
+      <ul class="nav-section--task-filters">
+        <li class="task-filter--option">All</li>
+        <li class="task-filter--option">Today</li>
+        <li class="task-filter--option">This Week</li>
+        <li class="task-filter--option">Overdue</li>
+      </ul>
+      <div class="nav-section--line"></div>
+      <h3>Lists</h3>
+      <div class="nav-section--list-options">
+        <h4 class="list-option--make-list">
+          <span class="plus">+</span><span>Make a list</span>
+        </h4>
+        <ul class="list-option--custom-lists"></ul>
+      </div>
+    </nav>
+    <main>
+      <div class="main-header">
+        <h1>Do...</h1>
+        <h2 class="main-header--current-filter"></h2>
+        <span class="current-filter--task-amount"></span>
+      </div>
+      <button class="add-task">
+        <span class="plus">+</span><span>Add a new Task</span>
+      </button>
+      <div class="current-task-list"></div>
+    </main>
+    <!-- task making form -->
+    <section class="task-form--container hidden">
+      <div class="task-form--header">
+        <h3>Add Task</h3>
+        <button class="close-btn">x</button>
+      </div>
+      <form class="task-form" action="">
+        <label for="task-title">Title</label>
+        <input type="text" id="task-title" required />
+
+        <label for="task-notes">Notes</label>
+        <textarea name="task-description" id="task-description"></textarea>
+
+        <label for="task-due-date">Due on</label>
+        <input type="date" id="task-due-date" />
+
+        <label for="task-priority">Priority</label>
+        <div class="task-priority--inputs">
+          <label for="task-priority--input-green">
+            <input
+              type="radio"
+              name="task-priority"
+              id="task-priority--input-green"
+            />
+            <span class="priority-color"></span>
+          </label>
+          <label for="task-priority--input-yellow">
+            <input
+              type="radio"
+              name="task-priority"
+              id="task-priority--input-yellow"
+            />
+            <span class="priority-color"></span>
+          </label>
+          <label for="task-priority--input-red">
+            <input
+              type="radio"
+              name="task-priority"
+              id="task-priority--input-red"
+            />
+            <span class="priority-color"></span>
+          </label>
+        </div>
+
+        <label for="task-list--label">List</label>
+        <select name="task-list--select" id="task-list--select">
+          <option value="0">All</option>
+        </select>
+
+        <button type="submit">Add this task</button>
+      </form>
+    </section>
+    <!-- task details -->
+  </body>
 </html>

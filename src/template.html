@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>do</title>
     <link rel="stylesheet" href="styles.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&family=Encode+Sans:wght@100..900&family=Inclusive+Sans:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
   </head>
   <body>
     <nav>
@@ -28,7 +36,7 @@
     </nav>
     <main>
       <div class="main-header">
-        <h1>Please, do</h1>
+        <h1>Do...</h1>
         <h2 class="main-header--current-filter"></h2>
         <span class="current-filter--task-amount"></span>
       </div>
@@ -38,7 +46,7 @@
       <div class="current-task-list"></div>
     </main>
     <!-- task making form -->
-    <section class="task-form--container">
+    <section class="task-form--container hidden">
       <div class="task-form--header">
         <h3>Add Task</h3>
         <button class="close-btn">x</button>
@@ -80,6 +88,11 @@
             <span class="priority-color"></span>
           </label>
         </div>
+
+        <label for="task-list--label">List</label>
+        <select name="task-list--select" id="task-list--select">
+          <option value="0">All</option>
+        </select>
 
         <button type="submit">Add this task</button>
       </form>

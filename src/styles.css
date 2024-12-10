@@ -1,3 +1,33 @@
 body {
     background-color: rgb(40, 37, 37);
+    color: seashell;
+    display: flex;
+    gap: 2rem;
+    padding: 1rem;
+    font-family: "Encode Sans", sans-serif;
 }
+
+h3 {
+    font-family: "Carrois Gothic SC", serif;
+}
+
+nav {
+    background-color: rgb(75, 68, 68);
+    box-shadow: 1px 1px 10px rgb(21, 20, 20);
+    height: 80vh;
+    width: 15rem;
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.hidden {
+    display: none;
+}
+
