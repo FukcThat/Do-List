@@ -27,10 +27,12 @@
       </ul>
       <div class="nav-section--line"></div>
       <h3>Lists</h3>
-      <div class="nav-section--list-options">
-        <h4 class="list-option--make-list">
-          <span class="plus">+</span><span>Make a list</span>
-        </h4>
+      <div class="nav-section--lists">
+        <button class="list--open-modal-btn">+</button>
+        <div class="list--modal hidden">
+          <input class="modal--input" type="text" required />
+          <button class="modal-add-list-btn">Done!</button>
+        </div>
         <ul class="list-option--custom-lists"></ul>
       </div>
     </nav>
