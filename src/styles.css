@@ -27,7 +27,38 @@ ul {
     gap: 0.5rem;
 }
 
+button {
+    font-family: "Encode Sans", sans-serif;
+    font-size: 1rem;
+}
+
 .hidden {
     display: none;
 }
 
+.flex {
+    display: flex;
+}
+
+.nav-btn {
+    cursor: pointer;
+}
+
+.nav-section--list-header {
+    justify-content: space-between;
+}
+
+.list--open-modal-btn {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 1rem;
+    align-self: center;
+    background-color: rgb(97, 143, 97);
+    border: none;
+    box-shadow: 0px 1px 1px rgb(27, 27, 27);
+}
+
+.list--modal {
+    gap: 0.5rem;
+    justify-content: space-between;
+}

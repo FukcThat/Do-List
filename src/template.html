@@ -20,18 +20,25 @@
       <div class="nav-section--line"></div>
       <h3></h3>
       <ul class="nav-section--task-filters">
-        <li class="task-filter--option">All</li>
-        <li class="task-filter--option">Today</li>
-        <li class="task-filter--option">This Week</li>
-        <li class="task-filter--option">Overdue</li>
+        <li class="task-filter--option nav-btn">All</li>
+        <li class="task-filter--option nav-btn">Today</li>
+        <li class="task-filter--option nav-btn">This Week</li>
+        <li class="task-filter--option nav-btn">Overdue</li>
       </ul>
       <div class="nav-section--line"></div>
-      <h3>Lists</h3>
+      <div class="nav-section--list-header flex">
+        <h3>Lists</h3>
+        <button class="list--open-modal-btn nav-btn">+</button>
+      </div>
       <div class="nav-section--lists">
-        <button class="list--open-modal-btn">+</button>
         <div class="list--modal hidden">
-          <input class="modal--input" type="text" required />
-          <button class="modal-add-list-btn">Done!</button>
+          <input
+            class="modal--input"
+            type="text"
+            placeholder="Your List"
+            required
+          />
+          <button class="modal-add-list-btn nav-btn">Done!</button>
         </div>
         <ul class="list-option--custom-lists"></ul>
       </div>
