@@ -59,6 +59,9 @@ button {
 }
 
 .list--modal {
+    background-color: grey;
+    border-radius: 0.25rem;
+    padding: 1rem;
     gap: 0.5rem;
-    justify-content: space-between;
+    flex-direction: column;
 }

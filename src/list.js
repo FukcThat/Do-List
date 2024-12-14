@@ -8,7 +8,7 @@ const listHandler = () => {
   let listArray = [];
 
   // Toggle List creation modal
-  toggleListModalBtn.addEventListener("click", () => {
+  const toggleListModal = () => {
     if (listModal.classList.contains("hidden")) {
       listModal.classList.remove("hidden");
       listModal.classList.add("flex");
@@ -16,6 +16,10 @@ const listHandler = () => {
       listModal.classList.add("hidden");
       listModal.classList.remove("flex");
     }
+  };
+
+  toggleListModalBtn.addEventListener("click", () => {
+    toggleListModal();
   });
 
   // Submit new list
@@ -23,6 +27,7 @@ const listHandler = () => {
     const newListName = newListInput.value;
     listArray.push(newListName);
 
+    toggleListModal();
     newListInput.value = "";
 
     renderLists(listArray);
