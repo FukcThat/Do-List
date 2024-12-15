@@ -15,8 +15,12 @@
     <!-- Google Fonts -->
   <script defer src="main.js"></script></head>
   <body>
+    <!-- nav -->
     <nav>
-      <h3>Tasks</h3>
+      <div class="nav-section--task-header flex">
+        <h3>Tasks</h3>
+        <button class="add-task-btn">+</button>
+      </div>
       <div class="nav-section--line"></div>
       <h3></h3>
       <ul class="nav-section--task-filters">
@@ -43,34 +47,32 @@
         <ul class="list-option--custom-lists"></ul>
       </div>
     </nav>
+
+    <!-- main -->
     <main>
       <div class="main-header">
         <h1>Do...</h1>
-        <h2 class="main-header--current-filter"></h2>
-        <span class="current-filter--task-amount"></span>
+        <!-- Task Counter Stuff for Later -->
+        <!-- <h2 class="main-header--current-filter"></h2>
+        <span class="current-filter--task-amount"></span> -->
       </div>
-      <button class="add-task">
-        <span class="plus">+</span><span>Add a new Task</span>
-      </button>
       <div class="current-task-list"></div>
     </main>
+
     <!-- task making form -->
     <section class="task-form--container hidden">
-      <div class="task-form--header">
-        <h3>Add Task</h3>
-        <button class="close-btn">x</button>
-      </div>
-      <form class="task-form" action="">
-        <label for="task-title">Title</label>
+      <h3>Add Task</h3>
+      <form class="task-form flex" action="">
+        <label for="task-title">What's the task?</label>
         <input type="text" id="task-title" required />
 
-        <label for="task-notes">Notes</label>
+        <label for="task-notes">Any notes?</label>
         <textarea name="task-description" id="task-description"></textarea>
 
-        <label for="task-due-date">Due on</label>
+        <label for="task-due-date">A deadline?</label>
         <input type="date" id="task-due-date" />
 
-        <label for="task-priority">Priority</label>
+        <label for="task-priority">How urgent is it?</label>
         <div class="task-priority--inputs">
           <label for="task-priority--input-green">
             <input
@@ -98,12 +100,12 @@
           </label>
         </div>
 
-        <label for="task-list--label">List</label>
+        <label for="task-list--label">Add it to a list?</label>
         <select name="task-list--select" id="task-list--select">
           <option value="0">All</option>
         </select>
 
-        <button type="submit">Add this task</button>
+        <button id="task-form--submit-btn" type="submit">Add this task</button>
       </form>
     </section>
     <!-- task details -->
