@@ -26,6 +26,8 @@ const taskHandler = () => {
   // Submit Task Form
   taskSubmitBtn.addEventListener("click", () => {
     addTask();
+    toggleTaskModal();
+    renderTasks();
   });
 
   // Toggle Task creation modal
