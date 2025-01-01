@@ -8,11 +8,9 @@ const taskHandler = () => {
   const taskTitleInput = document.querySelector("#task-title");
   const taskNotesInput = document.querySelector("#task-description");
   const taskDueDateInput = document.querySelector("#task-due-date");
-  const taskPriorityInput = document.querySelector(
-    'input[name="task-priority"]:checked'
-  )?.id;
   const taskListSelectInput = document.querySelector("#task-list--select");
   const taskSubmitBtn = document.querySelector("#task-form--submit-btn");
+  const currentTaskList = document.querySelector(".current-task-list");
 
   let allTasksArray = [];
 
@@ -24,10 +22,18 @@ const taskHandler = () => {
   });
 
   // Submit Task Form
-  taskSubmitBtn.addEventListener("click", () => {
+  taskSubmitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
     addTask();
     toggleTaskModal();
     renderTasks();
+  });
+
+  // Delete Task Btn
+  currentTaskList.addEventListener("click", (e) => {
+    if (e.target.classList.contains("delete-task-btn")) {
+      deleteTask();
+    }
   });
 
   // Toggle Task creation modal
@@ -46,7 +52,9 @@ const taskHandler = () => {
     const taskTitle = taskTitleInput.value;
     const taskNotes = taskNotesInput.value;
     const taskDueDate = taskDueDateInput.value;
-    const taskPriority = taskPriorityInput;
+    const taskPriority =
+      document.querySelector('input[name="task-priority"]:checked')?.id ||
+      "task-priority--input-green";
     const taskList = taskListSelectInput.value;
 
     const newTask = new Task(
@@ -58,6 +66,17 @@ const taskHandler = () => {
     );
 
     allTasksArray.push(newTask);
+  };
+
+  // Delete Task
+  /**
+   * Handles task deletion by removing the task from the array and re-rendering tasks.
+   * @param {Event} e - The event object triggered by the click listener.
+   */
+  const deleteTask = (e) => {
+    const taskIndex = e.target.getAttribute("data-index");
+    allTasksArray.splice(taskIndex, 1);
+    renderTasks();
   };
 
   // Helper - Creates HTML Elements
@@ -90,13 +109,19 @@ const taskHandler = () => {
 
   // Render Tasks
   const renderTasks = () => {
-    const taskContainer = document.querySelector(".task-list--container");
+    const selectedList = document.querySelector("#task-list--select").value;
 
     // Clear previous tasks
-    taskContainer.innerHTML = "";
+    currentTaskList.innerHTML = "";
+
+    // Render only tasks of the selected List
+    const tasksToRender =
+      selectedList === "All"
+        ? allTasksArray
+        : allTasksArray.filter((task) => task.list === selectedList);
 
     // Loop through allTasksArray and create elements
-    allTasksArray.forEach((task, index) => {
+    tasksToRender.forEach((task, index) => {
       // Create the task container
       const taskElement = createElement("div", "", ["task-item"]);
 
@@ -134,7 +159,7 @@ const taskHandler = () => {
       taskElement.appendChild(deleteButton);
 
       // Append the task container to the main task container
-      taskContainer.appendChild(taskElement);
+      currentTaskList.appendChild(taskElement);
     });
   };
 };
