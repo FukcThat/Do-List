@@ -26,7 +26,7 @@ const taskHandler = () => {
     e.preventDefault();
     addTask();
     toggleTaskModal();
-    renderTasks();
+    renderTasks(taskListSelectInput.value);
   });
 
   // Delete Task Btn
@@ -50,12 +50,12 @@ const taskHandler = () => {
   // Create Tasks from form inputs
   const addTask = () => {
     const taskTitle = taskTitleInput.value;
-    const taskNotes = taskNotesInput.value;
-    const taskDueDate = taskDueDateInput.value;
+    const taskNotes = taskNotesInput.value || "";
+    const taskDueDate = taskDueDateInput.value || "Whenever";
     const taskPriority =
       document.querySelector('input[name="task-priority"]:checked')?.id ||
       "task-priority--input-green";
-    const taskList = taskListSelectInput.value;
+    const taskList = taskListSelectInput.value.trim() || "All";
 
     const newTask = new Task(
       taskTitle,
@@ -66,6 +66,8 @@ const taskHandler = () => {
     );
 
     allTasksArray.push(newTask);
+
+    taskForm.reset();
   };
 
   // Delete Task
@@ -108,19 +110,24 @@ const taskHandler = () => {
   };
 
   // Render Tasks
-  const renderTasks = () => {
-    const selectedList = document.querySelector("#task-list--select").value;
+  const renderTasks = (filter = "All") => {
+    if (!filter) filter = "All";
+
+    console.log("Selected filter:", filter);
+    console.log("All tasks:", allTasksArray);
 
     // Clear previous tasks
     currentTaskList.innerHTML = "";
 
-    // Render only tasks of the selected List
+    // Render only tasks of the selected filter
     const tasksToRender =
-      selectedList === "All"
+      filter === "All"
         ? allTasksArray
-        : allTasksArray.filter((task) => task.list === selectedList);
+        : allTasksArray.filter((task) => task.list === filter);
 
-    // Loop through allTasksArray and create elements
+    console.log(`Tasks for ${filter}`, tasksToRender);
+
+    // Loop through taskToRender and create elements
     tasksToRender.forEach((task, index) => {
       // Create the task container
       const taskElement = createElement("div", "", ["task-item"]);

@@ -93,13 +93,12 @@ button {
 /* General Task Container */
 .current-task-list .task-item {
     display: flex;
-    flex-direction: column;
     gap: 8px;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 12px;
-    background-color: #6e6666;
+    background-color: #514a4a;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
   }
