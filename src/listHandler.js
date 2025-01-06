@@ -1,6 +1,4 @@
-import renderTasks from "./taskHandler";
-
-const listHandler = () => {
+const listHandler = (renderTasks) => {
   const toggleListModalBtn = document.querySelector(".list--open-modal-btn");
   const customLists = document.querySelector(".list-option--custom-lists");
   const listModal = document.querySelector(".list--modal");
@@ -44,7 +42,7 @@ const listHandler = () => {
     if (e.target.classList.contains("list-modal--list-btn")) {
       const selectedList = e.target.textContent;
       document.querySelector("#task-list--select").value = selectedList;
-      renderTasks();
+      renderTasks(selectedList);
     }
   });
 
@@ -53,6 +51,7 @@ const listHandler = () => {
     customLists.innerHTML = "";
     const taskListSelect = document.querySelector("#task-list--select");
 
+    // Clear the dropdown and add the default "All" option
     taskListSelect.innerHTML = `<option value="All">All</option>`;
 
     array.forEach((list) => {
@@ -64,7 +63,9 @@ const listHandler = () => {
 
       // Add Event Listener to filter tasks
       listBtn.addEventListener("click", () => {
-        renderTasks(list);
+        const listName = listBtn.textContent.trim().toLowerCase();
+        console.log("Clicked custom List: ", listName);
+        renderTasks(listName);
       });
 
       // Add to list select input
@@ -76,14 +77,17 @@ const listHandler = () => {
   };
 
   allListOption.addEventListener("click", () => {
+    console.log("Clicked All");
     renderTasks("All");
   });
 
   todayListOption.addEventListener("click", () => {
+    console.log("Clicked Today");
     renderTasks("Today");
   });
 
   weekListOption.addEventListener("click", () => {
+    console.log("Clicked This Week");
     renderTasks("Week");
   });
 };

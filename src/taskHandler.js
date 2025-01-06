@@ -55,8 +55,7 @@ const taskHandler = () => {
     const taskPriority =
       document.querySelector('input[name="task-priority"]:checked')?.id ||
       "task-priority--input-green";
-    const taskList = taskListSelectInput.value.trim() || "All";
-
+    const taskList = taskListSelectInput.value.trim().toLowerCase() || "All";
     const newTask = new Task(
       taskTitle,
       taskNotes,
@@ -111,19 +110,20 @@ const taskHandler = () => {
 
   // Render Tasks
   const renderTasks = (filter = "All") => {
-    if (!filter) filter = "All";
-
-    console.log("Selected filter:", filter);
     console.log("All tasks:", allTasksArray);
+    console.log("Render filter passed: ", filter);
 
     // Clear previous tasks
     currentTaskList.innerHTML = "";
 
     // Render only tasks of the selected filter
     const tasksToRender =
-      filter === "All"
+      filter.trim().toLowerCase() === "all"
         ? allTasksArray
-        : allTasksArray.filter((task) => task.list === filter);
+        : allTasksArray.filter(
+            (task) =>
+              task.list.trim().toLowerCase() === filter.trim().toLowerCase()
+          );
 
     console.log(`Tasks for ${filter}`, tasksToRender);
 
@@ -169,6 +169,8 @@ const taskHandler = () => {
       currentTaskList.appendChild(taskElement);
     });
   };
+
+  return { renderTasks };
 };
 
 export default taskHandler;

@@ -3,5 +3,5 @@ import "./styles.css";
 import listHandler from "./listHandler";
 import taskHandler from "./taskHandler";
 
-listHandler();
-taskHandler();
+const TaskHandler = taskHandler();
+listHandler(TaskHandler.renderTasks);
