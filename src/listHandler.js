@@ -28,14 +28,26 @@ const listHandler = (renderTasks) => {
 
   // Submit new list
   addListBtn.addEventListener("click", () => {
-    const newListName = newListInput.value;
-    listArray.push(newListName);
-
-    toggleListModal();
-    newListInput.value = "";
-
-    renderLists(listArray);
+    addList();
   });
+
+  // Add List Helper
+  const addList = (newListName) => {
+    // If there's no List name provided (from preload), take input from form & render Lists
+    if (!newListName) {
+      newListName = newListInput.value.trim();
+
+      // Reset the input value & toggle the modal
+      newListInput.value = "";
+      toggleListModal();
+    }
+
+    // Avoid duplicates and unnamed lists
+    if (newListName && !listArray.includes(newListName)) {
+      listArray.push(newListName);
+      renderLists(listArray);
+    }
+  };
 
   // Switch Lists
   customListOption.addEventListener("click", (e) => {
@@ -90,6 +102,11 @@ const listHandler = (renderTasks) => {
     console.log("Clicked This Week");
     renderTasks("Week");
   });
+
+  return {
+    addList,
+    renderLists,
+  };
 };
 
 export default listHandler;

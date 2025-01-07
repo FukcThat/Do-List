@@ -177,7 +177,7 @@ const taskHandler = () => {
     });
   };
 
-  return { renderTasks };
+  return { renderTasks, addTask };
 };
 
 export default taskHandler;
