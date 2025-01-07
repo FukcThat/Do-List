@@ -1,6 +1,6 @@
 import Task from "./task";
 
-const taskHandler = () => {
+const taskHandler = (() => {
   // Variables & such
   const addTaskBtn = document.querySelector(".add-task-btn");
   const taskModal = document.querySelector(".task-form--container");
@@ -24,9 +24,13 @@ const taskHandler = () => {
   // Submit Task Form
   taskSubmitBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    addTask();
-    toggleTaskModal();
-    renderTasks(taskListSelectInput.value);
+    const newTask = createTaskFromForm();
+    if (newTask) {
+      addTask(newTask);
+      taskForm.reset();
+      toggleTaskModal();
+      renderTasks();
+    }
   });
 
   // Toggle Task creation modal
@@ -41,8 +45,25 @@ const taskHandler = () => {
   };
 
   // Create Tasks from form inputs
-  const addTask = () => {
-    const taskTitle = taskTitleInput.value;
+  const addTask = (task) => {
+    if (!task || !task.title || !task.id) {
+      console.error("Invalid task:", task);
+      return;
+    }
+    allTasksArray.push(task);
+    renderTasks();
+  };
+
+  // Create Task from Form
+  const createTaskFromForm = () => {
+    const taskTitle = taskTitleInput.value.trim();
+
+    if (!taskTitle) {
+      window.alert("Task title is required I guess");
+      return null;
+    }
+
+    // Shuffle in the correct values for Elements
     const taskNotes = taskNotesInput.value || "";
     const taskDueDate = taskDueDateInput.value || "Whenever";
     const taskPriority =
@@ -51,6 +72,7 @@ const taskHandler = () => {
     const taskList = taskListSelectInput.value.trim().toLowerCase() || "All";
     const taskId = Date.now();
 
+    // Create new Task instance with those values
     const newTask = new Task(
       taskId,
       taskTitle,
@@ -60,9 +82,7 @@ const taskHandler = () => {
       taskList
     );
 
-    allTasksArray.push(newTask);
-    taskForm.reset();
-    renderTasks();
+    return newTask;
   };
 
   // Delete Task
@@ -134,6 +154,8 @@ const taskHandler = () => {
 
     // Loop through taskToRender and create elements
     tasksToRender.forEach((task) => {
+      console.log("Rendering task:", task);
+
       // Create the task container
       const taskElement = createElement("div", "", ["task-item"]);
 
@@ -176,8 +198,7 @@ const taskHandler = () => {
       currentTaskList.appendChild(taskElement);
     });
   };
-
-  return { renderTasks, addTask };
-};
+  return { renderTasks, addTask, createTaskFromForm };
+})();
 
 export default taskHandler;

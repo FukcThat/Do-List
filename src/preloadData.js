@@ -1,8 +1,9 @@
+import taskHandler from "./taskHandler";
 import Task from "./task";
 
 export const preloadedLists = ["Home", "Work", "Groceries"];
 
-export const preloadedTasks = [
+taskHandler.addTask(
   new Task(
     Date.now() + 1,
     "Buy groceries",
@@ -10,7 +11,10 @@ export const preloadedTasks = [
     "2024-12-25",
     "task-priority--input-yellow",
     "groceries"
-  ),
+  )
+);
+
+taskHandler.addTask(
   new Task(
     Date.now() + 2,
     "Finish work report",
@@ -18,7 +22,10 @@ export const preloadedTasks = [
     "2024-12-22",
     "task-priority--input-red",
     "work"
-  ),
+  )
+);
+
+taskHandler.addTask(
   new Task(
     Date.now() + 3,
     "Clean the kitchen",
@@ -26,5 +33,7 @@ export const preloadedTasks = [
     "Whenever",
     "task-priority--input-green",
     "home"
-  ),
-];
+  )
+);
+
+taskHandler.renderTasks();

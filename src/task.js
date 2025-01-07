@@ -1,16 +1,9 @@
 class Task {
-  constructor(
-    id,
-    title = "Untitled Task",
-    notes = "",
-    dueDate = "Whenever",
-    priority = "task-priority--input-green",
-    list = "All"
-  ) {
+  constructor(id, title, notes, dueDate, priority, list) {
     this.id = id;
     this.title = title;
     this.notes = notes;
-    this.dueDate - dueDate;
+    this.dueDate = dueDate;
     this.priority = priority;
     this.list = list;
   }
