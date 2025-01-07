@@ -29,13 +29,6 @@ const taskHandler = () => {
     renderTasks(taskListSelectInput.value);
   });
 
-  // Delete Task Btn
-  currentTaskList.addEventListener("click", (e) => {
-    if (e.target.classList.contains("delete-task-btn")) {
-      deleteTask();
-    }
-  });
-
   // Toggle Task creation modal
   const toggleTaskModal = () => {
     if (taskModal.classList.contains("hidden")) {
@@ -56,7 +49,10 @@ const taskHandler = () => {
       document.querySelector('input[name="task-priority"]:checked')?.id ||
       "task-priority--input-green";
     const taskList = taskListSelectInput.value.trim().toLowerCase() || "All";
+    const taskId = Date.now();
+
     const newTask = new Task(
+      taskId,
       taskTitle,
       taskNotes,
       taskDueDate,
@@ -65,19 +61,28 @@ const taskHandler = () => {
     );
 
     allTasksArray.push(newTask);
-
     taskForm.reset();
+    renderTasks();
   };
 
   // Delete Task
   /**
    * Handles task deletion by removing the task from the array and re-rendering tasks.
-   * @param {Event} e - The event object triggered by the click listener.
+   * @param {number} taskIndex - The event object triggered by the click listener.
    */
-  const deleteTask = (e) => {
-    const taskIndex = e.target.getAttribute("data-index");
-    allTasksArray.splice(taskIndex, 1);
-    renderTasks();
+  const deleteTask = (taskId) => {
+    console.log("Deleting task with ID:", taskId);
+
+    const taskIndex = allTasksArray.findIndex(
+      (task) => task.id === parseInt(taskId)
+    );
+
+    if (taskIndex !== -1) {
+      allTasksArray.splice(taskIndex, 1);
+      renderTasks();
+    } else {
+      console.log("Task not found.");
+    }
   };
 
   // Helper - Creates HTML Elements
@@ -109,7 +114,7 @@ const taskHandler = () => {
   };
 
   // Render Tasks
-  const renderTasks = (filter = "All") => {
+  const renderTasks = (filter = "all") => {
     console.log("All tasks:", allTasksArray);
     console.log("Render filter passed: ", filter);
 
@@ -128,7 +133,7 @@ const taskHandler = () => {
     console.log(`Tasks for ${filter}`, tasksToRender);
 
     // Loop through taskToRender and create elements
-    tasksToRender.forEach((task, index) => {
+    tasksToRender.forEach((task) => {
       // Create the task container
       const taskElement = createElement("div", "", ["task-item"]);
 
@@ -150,12 +155,14 @@ const taskHandler = () => {
       const listElement = createElement("p", `List: ${task.list}`, "task-list");
 
       // Create the delete button
-      const deleteButton = createElement(
-        "button",
-        "Delete",
-        ["delete-task-btn"],
-        { "data-index": index }
-      );
+      const deleteButton = createElement("button", "Delete", [
+        "delete-task-btn",
+      ]);
+      deleteButton.setAttribute("data-id", task.id);
+      deleteButton.addEventListener("click", (e) => {
+        console.log("Delete button clicked:", e.target.getAttribute("data-id"));
+        deleteTask(e.target.getAttribute("data-id"));
+      });
 
       // Append all elements to the task container
       taskElement.appendChild(titleElement);
