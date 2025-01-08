@@ -133,11 +133,18 @@ const taskHandler = (() => {
     return element;
   };
 
+  // Helper - Toggles task Done / Undone checkmark
+  const toggleTaskCheckbox = (taskId) => {
+    const taskIndex = allTasksArray.findIndex((task) => task.id === taskId);
+
+    if (taskIndex !== -1) {
+      allTasksArray[taskIndex].isDone = !allTasksArray[taskIndex].isDone;
+      renderTasks();
+    }
+  };
+
   // Render Tasks
   const renderTasks = (filter = "all") => {
-    console.log("All tasks:", allTasksArray);
-    console.log("Render filter passed: ", filter);
-
     // Clear previous tasks
     currentTaskList.innerHTML = "";
 
@@ -160,6 +167,18 @@ const taskHandler = (() => {
       const taskElement = createElement("div", "", ["task-item"]);
 
       // Create individual elements for task properties
+      const checkboxElement = createElement("input", "", ["task-checkbox"], {
+        type: "checkbox",
+      });
+      checkboxElement.addEventListener("change", () =>
+        toggleTaskCheckbox(task.id)
+      );
+
+      if (task.isDone) {
+        taskElement.classList.add("completed-task");
+        checkboxElement.checked = true;
+      }
+
       const titleElement = createElement("h3", task.title, "task-title");
       const notesElement = createElement("p", task.notes, "task-notes");
       const dueDateElement = createElement(
@@ -187,6 +206,7 @@ const taskHandler = (() => {
       });
 
       // Append all elements to the task container
+      taskElement.appendChild(checkboxElement);
       taskElement.appendChild(titleElement);
       taskElement.appendChild(notesElement);
       taskElement.appendChild(dueDateElement);
