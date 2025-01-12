@@ -143,6 +143,19 @@ const taskHandler = (() => {
     }
   };
 
+  const getPriorityClass = (priority) => {
+    switch (priority) {
+      case "task-priority--input-green":
+        return "priority-green";
+      case "task-priority--input-yellow":
+        return "priority-yellow";
+      case "task-priority--input-red":
+        return "priority-red";
+      default:
+        return "priority-default"; // Fallback class
+    }
+  };
+
   // Render Tasks
   const renderTasks = (filter = "all") => {
     // Clear previous tasks
@@ -186,13 +199,7 @@ const taskHandler = (() => {
         `Due: ${task.dueDate}`,
         "task-due-date"
       );
-      const priorityElement = createElement(
-        "p",
-        `Priority: ${task.priority
-          .replace("task-priority--input-", "")
-          .toUpperCase()}`,
-        "task-priority"
-      );
+      taskElement.classList.add(getPriorityClass(task.priority));
       const listElement = createElement("p", `List: ${task.list}`, "task-list");
 
       // Create the delete button
@@ -214,7 +221,6 @@ const taskHandler = (() => {
       taskElement.appendChild(titleElement);
       taskElement.appendChild(notesElement);
       taskElement.appendChild(dueDateElement);
-      taskElement.appendChild(priorityElement);
       taskElement.appendChild(listElement);
       taskElement.appendChild(deleteButton);
 

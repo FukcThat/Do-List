@@ -160,3 +160,28 @@ button {
 .delete-task-btn:hover svg {
   color: #e63946;
 }
+
+/* Left stripe styles for priorities */
+.priority-green::before,
+.priority-yellow::before,
+.priority-red::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  border-radius: 4px 0 0 4px;
+}
+
+.priority-green::before {
+  background-color: #4caf50; /* Green */
+}
+
+.priority-yellow::before {
+  background-color: #ffeb3b; /* Yellow */
+}
+
+.priority-red::before {
+  background-color: #f44336; /* Red */
+}
