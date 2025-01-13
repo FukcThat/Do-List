@@ -112,7 +112,6 @@ button {
   display: flex;
   width: 100%;
   gap: 8px;
-  border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 12px;
@@ -128,6 +127,10 @@ button {
 .completed-task {
   color: #b9acac;
   text-decoration: line-through;
+}
+
+.task-item {
+  position: relative;
 }
 
 /* Hover Effect */

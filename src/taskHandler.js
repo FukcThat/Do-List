@@ -199,7 +199,10 @@ const taskHandler = (() => {
         `Due: ${task.dueDate}`,
         "task-due-date"
       );
+
+      console.log(getPriorityClass(task.priority));
       taskElement.classList.add(getPriorityClass(task.priority));
+
       const listElement = createElement("p", `List: ${task.list}`, "task-list");
 
       // Create the delete button
