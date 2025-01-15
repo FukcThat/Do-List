@@ -303,7 +303,6 @@ const taskHandler = (() => {
 
       const editTaskForm = createEditTaskForm(task);
       editTaskForm.style.display = "none";
-      taskElement.appendChild(editTaskForm);
 
       // Create the delete button
       // const deleteButton = createElement("button", "", ["delete-task-btn"]);
@@ -323,6 +322,7 @@ const taskHandler = (() => {
       taskElement.appendChild(checkboxElement);
       taskElement.appendChild(titleElement);
       taskElement.appendChild(dueDateElement);
+      taskElement.appendChild(editTaskForm);
       taskElement.appendChild(chevronButton);
 
       // Append the task container to the main task container
