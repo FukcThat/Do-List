@@ -152,7 +152,7 @@ const taskHandler = (() => {
 
     if (form.style.display === "none") {
       form.style.display = "flex";
-      populateFormInputs(form, task);
+      // populateFormInputs(form, task);
       chevronButton.classList.add("open");
     } else {
       form.style.display = "none";
@@ -296,10 +296,10 @@ const taskHandler = (() => {
         "task-due-date"
       );
 
-      const chevronButton = createElement("button", "▼", ["chevron-btn"]);
-      chevronButton.addEventListener("click", () =>
-        toggleTaskExpansion(taskElement, task)
-      );
+      const chevronButton = createElement("button", "︾", ["chevron-btn"]);
+      chevronButton.addEventListener("click", () => {
+        toggleTaskExpansion(taskElement, task);
+      });
 
       const editTaskForm = createEditTaskForm(task);
       editTaskForm.style.display = "none";
