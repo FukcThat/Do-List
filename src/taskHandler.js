@@ -45,13 +45,15 @@ const taskHandler = (() => {
   };
 
   // Create Tasks from form inputs
-  const addTask = (task) => {
+  const addTask = (task, shouldRender = true) => {
     if (!task || !task.title || !task.id) {
       console.error("Invalid task:", task);
       return;
     }
     allTasksArray.push(task);
-    renderTasks();
+    if (shouldRender) {
+      renderTasks();
+    }
   };
 
   // Create Task from Form
@@ -91,8 +93,6 @@ const taskHandler = (() => {
    * @param {number} taskIndex - The event object triggered by the click listener.
    */
   const deleteTask = (taskId) => {
-    console.log("Deleting task with ID:", taskId);
-
     const taskIndex = allTasksArray.findIndex(
       (task) => task.id === parseInt(taskId)
     );
@@ -117,8 +117,6 @@ const taskHandler = (() => {
   const createElement = (tag, content = "", classes = [], attributes = {}) => {
     const element = document.createElement(tag);
     element.textContent = content;
-
-    console.log(`Creating element: <${tag}> with classes:`, classes);
 
     // Add classes if provided
     if (typeof classes === "string") {
@@ -147,84 +145,27 @@ const taskHandler = (() => {
 
   // Helper - Toggle Task Expansion
   const toggleTaskExpansion = (taskElement, task) => {
-    const form = taskElement.querySelector(".edit-task-form");
+    const titleElement = taskElement.querySelector(".task-title");
+    const dueDateElement = taskElement.querySelector(".task-due-date");
+    const expandedInfo = taskElement.querySelector(".expanded-info");
     const chevronButton = taskElement.querySelector(".chevron-btn");
 
-    if (form.style.display === "none") {
-      form.style.display = "flex";
-      // populateFormInputs(form, task);
+    if (!expandedInfo) {
+      console.error("Expanded info not found for task:", task);
+      return;
+    }
+
+    if (expandedInfo.style.display === "none") {
+      expandedInfo.style.display = "flex";
+      titleElement.removeAttribute("readonly");
+      dueDateElement.removeAttribute("readonly");
       chevronButton.classList.add("open");
     } else {
-      form.style.display = "none";
+      expandedInfo.style.display = "none";
+      titleElement.setAttribute("readonly", true);
+      dueDateElement.setAttribute("readonly", true);
       chevronButton.classList.remove("open");
     }
-  };
-
-  // Helper - Edit Task Form
-  const createEditTaskForm = (task) => {
-    console.log("Creating edit form for task:", task);
-
-    const editTaskform = createElement("form", "", ["edit-task-form"]);
-    console.log("Edit form created:", editTaskform);
-
-    // Edit Title Input
-    const editTitleInput = createElement("input", "", ["edit-input"], {
-      type: "text",
-      value: task.title,
-      placeholder: "Task Title",
-    });
-    editTitleInput.addEventListener("input", (e) =>
-      updateTask(task.id, "title", e.target.value)
-    );
-
-    // Edit Note's input
-    const editNotesInput = createElement("textarea", "", ["edit-input"], {
-      value: task.notes,
-    });
-    editNotesInput.addEventListener("input", (e) =>
-      updateTask(task.id, "notes", e.target.value)
-    );
-
-    // Edit Due Date Input
-    const editDueDateInput = createElement("input", "", ["edit-input"], {
-      type: "date",
-      value: task.dueDate,
-    });
-    editDueDateInput.addEventListener("input", (e) =>
-      updateTask(task.id, "dueDate", e.target.value)
-    );
-
-    // Edit Priority Select Input
-    const editPrioritySelect = createElement("select", "", ["edit-input"]);
-
-    [
-      "task-priority--input-green",
-      "task-priority--input-yellow",
-      "task-priority--input-red",
-    ].forEach((priority) => {
-      const option = createElement(
-        "option",
-        priority.replace("task-priority--input-", "").toUpperCase(),
-        [],
-        {
-          value: priority,
-          selected: task.priority === priority,
-        }
-      );
-      editPrioritySelect.appendChild(option);
-    });
-
-    editPrioritySelect.addEventListener("change", (e) =>
-      updateTask(task.id, "priority", e.target.value)
-    );
-
-    // Append Inputs to Form & return
-    editTaskform.appendChild(editTitleInput);
-    editTaskform.appendChild(editNotesInput);
-    editTaskform.appendChild(editDueDateInput);
-    editTaskform.appendChild(editPrioritySelect);
-
-    return editTaskform;
   };
 
   // Helper - Update's Task after edits
@@ -252,6 +193,7 @@ const taskHandler = (() => {
 
   // Render Tasks
   const renderTasks = (filter = "all") => {
+    console.log(`Rendering tasks. Called from: ${new Error().stack}`);
     // Clear previous tasks
     currentTaskList.innerHTML = "";
 
@@ -264,17 +206,16 @@ const taskHandler = (() => {
               task.list.trim().toLowerCase() === filter.trim().toLowerCase()
           );
 
-    console.log(`Tasks for ${filter}`, tasksToRender);
-
     // Loop through taskToRender and create elements
     tasksToRender.forEach((task) => {
-      console.log("Rendering task:", task);
-
       // Create the task container
       const taskElement = createElement("div", "", ["task-item"]);
 
       // Apply the right priority bar
       taskElement.classList.add(getPriorityClass(task.priority));
+
+      // Create Main Info Container (closed task)
+      const mainInfo = createElement("div", "", ["main-info", "flex"]);
 
       // Create individual elements for task properties
       const checkboxElement = createElement("input", "", ["task-checkbox"], {
@@ -288,42 +229,114 @@ const taskHandler = (() => {
         checkboxElement.checked = true;
       }
 
-      // Title & Due Date
-      const titleElement = createElement("h3", task.title, "task-title");
-      const dueDateElement = createElement(
-        "p",
-        `Due: ${task.dueDate}`,
-        "task-due-date"
-      );
+      // Title
+      const titleElement = createElement("input", "", ["task-title"], {
+        type: "text",
+        readonly: true,
+        value: task.title,
+      });
+      titleElement.addEventListener("input", (e) => {
+        updateTask(task.id, "title", e.target.value);
+      });
 
+      // Debugging logs
+      console.log("Appending titleElement:", titleElement);
+      taskElement.appendChild(titleElement);
+      console.log("Task element after appending title:", taskElement);
+
+      // Due Date
+      const dueDateElement = createElement("input", "", ["task-due-date"], {
+        type: "date",
+        value: task.dueDate,
+        readonly: true,
+      });
+      dueDateElement.addEventListener("input", (e) => {
+        updateTask(task.id, "dueDate", e.target.value);
+      });
+
+      // Chevron Button
       const chevronButton = createElement("button", "︾", ["chevron-btn"]);
       chevronButton.addEventListener("click", () => {
         toggleTaskExpansion(taskElement, task);
       });
 
-      const editTaskForm = createEditTaskForm(task);
-      editTaskForm.style.display = "none";
+      // Epanded Info
+      const expandedInfo = createElement("div", "", ["expanded-info"]);
+      expandedInfo.style.display = "none";
+
+      // Notes
+      const notesElement = createElement("textarea", task.notes, [
+        "task-notes",
+      ]);
+      notesElement.addEventListener("input", (e) => {
+        updateTask(task.id, "notes", e.target.value);
+      });
+
+      // Priority Radio Buttons
+      const priorityElement = createElement("div", "", ["priority-container"]);
+      [
+        "task-priority--input-green",
+        "task-priority--input-yellow",
+        "task-priority--input-red",
+      ].forEach((priority) => {
+        const radio = createElement("input", "", [], {
+          type: "radio",
+          name: `priority-${task.id}`,
+          value: priority,
+          checked: task.priority === priority,
+        });
+        radio.addEventListener("change", (e) =>
+          updateTask(task.id, "priority", e.target.value)
+        );
+        const label = createElement(
+          "label",
+          priority.replace("task-priority--input-", "").toUpperCase()
+        );
+        label.appendChild(radio);
+        priorityElement.appendChild(label);
+      });
+
+      // List Dropdown
+      const listDropdown = createElement("select", "", ["task-list-dropdown"]);
+      const allLists = ["Home", "Work", "Groceries"]; // Replace with dynamic list source if available
+      allLists.forEach((list) => {
+        const option = createElement("option", list, [], {
+          value: list.toLowerCase(),
+          selected: task.list === list.toLowerCase(),
+        });
+        listDropdown.appendChild(option);
+      });
+      listDropdown.addEventListener("change", (e) =>
+        updateTask(task.id, "list", e.target.value)
+      );
 
       // Create the delete button
-      // const deleteButton = createElement("button", "", ["delete-task-btn"]);
-      // deleteButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="1.75rem" height="1.75rem" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zm3.17-6.41a.996.996 0 1 1 1.41-1.41L12 12.59l1.41-1.41a.996.996 0 1 1 1.41 1.41L13.41 14l1.41 1.41a.996.996 0 1 1-1.41 1.41L12 15.41l-1.41 1.41a.996.996 0 1 1-1.41-1.41L10.59 14zM18 4h-2.5l-.71-.71c-.18-.18-.44-.29-.7-.29H9.91c-.26 0-.52.11-.7.29L8.5 4H6c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1"/></svg>`;
-      // deleteButton.setAttribute("data-id", task.id);
+      const deleteButton = createElement("button", "", ["delete-task-btn"]);
+      deleteButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="1.75rem" height="1.75rem" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zm3.17-6.41a.996.996 0 1 1 1.41-1.41L12 12.59l1.41-1.41a.996.996 0 1 1 1.41 1.41L13.41 14l1.41 1.41a.996.996 0 1 1-1.41 1.41L12 15.41l-1.41 1.41a.996.996 0 1 1-1.41-1.41L10.59 14zM18 4h-2.5l-.71-.71c-.18-.18-.44-.29-.7-.29H9.91c-.26 0-.52.11-.7.29L8.5 4H6c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1"/></svg>`;
+      deleteButton.setAttribute("data-id", task.id);
 
       // Delete Btn EventListener
-      // deleteButton.addEventListener("click", (e) => {
-      //   const button = e.target.closest(".delete-task-btn");
-      //   const taskId = button?.getAttribute("data-id");
+      deleteButton.addEventListener("click", (e) => {
+        const button = e.target.closest(".delete-task-btn");
+        const taskId = button?.getAttribute("data-id");
 
-      //   console.log("Delete button clicked:", taskId);
-      //   deleteTask(taskId);
-      // });
+        deleteTask(taskId);
+      });
+
+      // Append expanded Info
+      expandedInfo.appendChild(notesElement);
+      expandedInfo.appendChild(priorityElement);
+      expandedInfo.appendChild(listDropdown);
+      expandedInfo.appendChild(deleteButton);
 
       // Append all elements to the task container
-      taskElement.appendChild(checkboxElement);
-      taskElement.appendChild(titleElement);
-      taskElement.appendChild(dueDateElement);
-      taskElement.appendChild(editTaskForm);
-      taskElement.appendChild(chevronButton);
+      mainInfo.appendChild(checkboxElement);
+      mainInfo.appendChild(titleElement);
+      mainInfo.appendChild(dueDateElement);
+      mainInfo.appendChild(chevronButton);
+
+      taskElement.appendChild(mainInfo);
+      taskElement.appendChild(expandedInfo);
 
       // Append the task container to the main task container
       currentTaskList.appendChild(taskElement);

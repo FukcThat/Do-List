@@ -12,7 +12,8 @@ taskHandler.addTask(
     "2024-12-25",
     "task-priority--input-yellow",
     "groceries"
-  )
+  ),
+  false
 );
 
 taskHandler.addTask(
@@ -24,7 +25,8 @@ taskHandler.addTask(
     "2024-12-22",
     "task-priority--input-red",
     "work"
-  )
+  ),
+  false
 );
 
 taskHandler.addTask(
@@ -36,7 +38,8 @@ taskHandler.addTask(
     "Whenever",
     "task-priority--input-green",
     "home"
-  )
+  ),
+  false
 );
 
 taskHandler.renderTasks();

@@ -7,7 +7,8 @@ body {
   font-family: "Encode Sans", sans-serif;
 }
 
-h3 {
+h3,
+.task-title {
   font-family: "Carrois Gothic SC", serif;
 }
 
@@ -32,6 +33,10 @@ ul {
 button {
   font-family: "Encode Sans", sans-serif;
   font-size: 1rem;
+}
+
+main {
+  width: 100dvw;
 }
 
 .hidden {
@@ -108,10 +113,10 @@ button {
 }
 
 /* General Task Container */
-.current-task-list .task-item {
+.task-item {
+  position: relative;
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  flex-direction: column;
   gap: 8px;
   border-radius: 8px;
   padding: 16px;
@@ -121,29 +126,60 @@ button {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.task-checkbox {
-  margin-right: 1.5rem;
-}
-
-.completed-task {
-  color: #b9acac;
-  text-decoration: line-through;
-}
-
-.task-item {
-  position: relative;
-}
-
 /* Hover Effect */
 .task-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Completed Task */
+.completed-task {
+  color: #b9acac;
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+/* Main Info */
+.main-info {
+  justify-content: space-between;
+}
+
+/* Checkbox */
+.task-checkbox {
+  margin-right: 1.5rem;
+}
+
 /* Task Title */
-.task-title {
-  font-size: 1.2rem;
+.task-title[readonly] {
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
   font-weight: bold;
+  color: white;
+  cursor: default;
+}
+.task-title:not([readonly]) {
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: text;
+}
+
+.task-notes {
+  flex: 1 1 100%;
+}
+
+/* Expanded Info Container */
+.expanded-info {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* Priority Radio Buttons */
+.priority-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 8px 0;
 }
 
 /* Delete Button */
