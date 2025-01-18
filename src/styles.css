@@ -141,7 +141,8 @@ main {
 
 /* Main Info */
 .main-info {
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr, 2fr, 2fr, 1fr;
 }
 
 /* Checkbox */
