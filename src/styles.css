@@ -39,6 +39,27 @@ main {
   width: 100dvw;
 }
 
+input,
+textarea,
+select {
+  background-color: rgb(111, 95, 95);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding-inline: 1.5rem;
+  font-size: 1rem;
+}
+
+textarea,
+select {
+  padding-block: 0.5rem;
+  box-shadow: 0px 1px 2px rgb(48, 45, 45);
+}
+
+input[type="date"] {
+  box-shadow: 0px 1px 2px rgb(48, 45, 45);
+}
+
 .hidden {
   display: none;
 }
@@ -142,7 +163,7 @@ main {
 /* Main Info */
 .main-info {
   display: grid;
-  grid-template-columns: 1fr, 2fr, 2fr, 1fr;
+  grid-template-columns: 1fr 6fr 2fr 1fr;
 }
 
 /* Checkbox */
@@ -158,21 +179,33 @@ main {
   font-weight: bold;
   color: white;
   cursor: default;
+  margin-right: 5rem;
+  padding-left: 1.5rem;
+  border-radius: 0.5rem;
 }
 .task-title:not([readonly]) {
-  border: 1px solid #ccc;
-  background: #fff;
+  background-color: rgb(111, 95, 95);
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
   cursor: text;
+  border: none;
+  box-shadow: 0px 1px 2px rgb(48, 45, 45);
+  margin-right: 5rem;
+  padding-left: 1.5rem;
+  border-radius: 1rem;
 }
 
 .task-notes {
-  flex: 1 1 100%;
+  grid-column: span 2;
 }
 
 /* Expanded Info Container */
 .expanded-info {
-  flex-wrap: wrap;
-  justify-content: space-between;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  margin-left: 8rem;
+  margin-right: 8rem;
 }
 
 /* Priority Radio Buttons */

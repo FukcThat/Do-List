@@ -156,7 +156,7 @@ const taskHandler = (() => {
     }
 
     if (expandedInfo.style.display === "none") {
-      expandedInfo.style.display = "flex";
+      expandedInfo.style.display = "grid";
       titleElement.removeAttribute("readonly");
       dueDateElement.removeAttribute("readonly");
       chevronButton.classList.add("open");
@@ -215,7 +215,7 @@ const taskHandler = (() => {
       taskElement.classList.add(getPriorityClass(task.priority));
 
       // Create Main Info Container (closed task)
-      const mainInfo = createElement("div", "", ["main-info", "flex"]);
+      const mainInfo = createElement("div", "", ["main-info"]);
 
       // Create individual elements for task properties
       const checkboxElement = createElement("input", "", ["task-checkbox"], {
