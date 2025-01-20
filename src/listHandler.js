@@ -8,6 +8,11 @@ const listHandler = (renderTasks) => {
   const allListOption = document.querySelector(".task-filter--option-all");
   const todayListOption = document.querySelector(".task-filter--option-today");
   const weekListOption = document.querySelector(".task-filter--option-week");
+  const deleteListModal = document.querySelector("#delete-list-modal");
+  const listNamePlaceholder = document.querySelector("#list-name-placeholder");
+  const keepTasksBtn = document.querySelector("#keep-tasks-btn");
+  const deleteTasksBtn = document.querySelector("#delete-tasks-btn");
+  const cancelBtn = document.querySelector("#cancel-btn");
 
   let listArray = [];
 
@@ -57,6 +62,64 @@ const listHandler = (renderTasks) => {
       renderTasks(selectedList);
     }
   });
+
+  // Delete Lists
+  const deleteList = (listName) => {
+    openDeleteListModal();
+    keepTasksBtn.addEventListener("click", () => {
+      keepTasks();
+    });
+
+    deleteTasksBtn.addEventListener("click", () => {
+      deleteListsAndTasks();
+
+      cancelBtn.addEventListener("click", () => {
+        deleteListModal.classList.add("hidden");
+      });
+    });
+  };
+
+  // Helper - Open Delete List Modal
+  const openDeleteListModal = () => {
+    deleteListModal.classList.remove("hidden");
+    listNamePlaceholder.textContent = listName;
+  };
+
+  // Helper - Keep tasks of deleted list
+  const keepTasks = () => {
+    // Reset list to All for tasks in the list
+    allTasksArray.forEach((task) => {
+      if (task.list === listName.toLowerCase()) {
+        task.list = "all";
+      }
+    });
+
+    // Remove List
+    listArray = listArray.filter((list) => list !== listName);
+
+    renderLists();
+    renderTasks();
+
+    // Close Modal
+    deleteListModal.classList.add("hidden");
+  };
+
+  // Helper - Delete Lists and all Tasks in it
+  const deleteListsAndTasks = () => {
+    //Remove the tasks
+    allTasksArray = allTasksArray.filter(
+      (task) => task.list !== listName.toLowerCase()
+    );
+
+    //Remove the list
+    listArray = listArray.filter((list) => list !== listName);
+
+    renderLists();
+    renderTasks();
+
+    //Close the Modal
+    deleteListModal.classList.add("hidden");
+  };
 
   // Render Lists
   const renderLists = (array) => {
