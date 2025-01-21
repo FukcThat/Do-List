@@ -1,3 +1,7 @@
+import taskHandler from "./taskHandler";
+
+const { allTasksArray } = taskHandler;
+
 const listHandler = (renderTasks) => {
   const toggleListModalBtn = document.querySelector(".list--open-modal-btn");
   const customLists = document.querySelector(".list-option--custom-lists");
@@ -13,6 +17,7 @@ const listHandler = (renderTasks) => {
   const keepTasksBtn = document.querySelector("#keep-tasks-btn");
   const deleteTasksBtn = document.querySelector("#delete-tasks-btn");
   const cancelBtn = document.querySelector("#cancel-btn");
+  const taskListSelect = document.querySelector("#task-list--select");
 
   let listArray = [];
 
@@ -63,6 +68,29 @@ const listHandler = (renderTasks) => {
     }
   });
 
+  // Rename Lists
+  const renameLists = (oldName, newName) => {
+    if (!newName || oldName === newName) return;
+
+    const listIndex = listArray.findIndex((list) => list === oldName);
+    if (listIndex !== -1) {
+      listArray[listIndex] = newName;
+    }
+
+    allTasksArray.forEach((task) => {
+      if (task.list === oldName.toLowerCase()) {
+        task.list = newName.toLowerCase();
+      }
+    });
+
+    renderLists();
+    renderTasks();
+  };
+
+  // Update Task Creation Dropdown
+
+  // Update Task Expansion Dropdowns
+
   // Delete Lists
   const deleteList = (listName) => {
     openDeleteListModal();
@@ -80,13 +108,13 @@ const listHandler = (renderTasks) => {
   };
 
   // Helper - Open Delete List Modal
-  const openDeleteListModal = () => {
+  const openDeleteListModal = (listName) => {
     deleteListModal.classList.remove("hidden");
     listNamePlaceholder.textContent = listName;
   };
 
   // Helper - Keep tasks of deleted list
-  const keepTasks = () => {
+  const keepTasks = (listName) => {
     // Reset list to All for tasks in the list
     allTasksArray.forEach((task) => {
       if (task.list === listName.toLowerCase()) {
@@ -105,7 +133,7 @@ const listHandler = (renderTasks) => {
   };
 
   // Helper - Delete Lists and all Tasks in it
-  const deleteListsAndTasks = () => {
+  const deleteListsAndTasks = (listName) => {
     //Remove the tasks
     allTasksArray = allTasksArray.filter(
       (task) => task.list !== listName.toLowerCase()
@@ -122,26 +150,89 @@ const listHandler = (renderTasks) => {
   };
 
   // Render Lists
-  const renderLists = (array) => {
+  const renderLists = () => {
     customLists.innerHTML = "";
     const taskListSelect = document.querySelector("#task-list--select");
 
     // Clear the dropdown and add the default "All" option
     taskListSelect.innerHTML = `<option value="All">All</option>`;
 
-    array.forEach((list) => {
+    listArray.forEach((list) => {
       // Render in Nav
-      const listBtn = document.createElement("div");
-      listBtn.textContent = list;
-      listBtn.classList.add("list-modal--list-btn", "nav-btn");
-      customLists.appendChild(listBtn);
+      const listContainer = taskHandler.createElement(
+        "div",
+        "",
+        ["list-item-container", "flex"],
+        {}
+      );
 
-      // Add Event Listener to filter tasks
-      listBtn.addEventListener("click", () => {
-        const listName = listBtn.textContent.trim().toLowerCase();
-        console.log("Clicked custom List: ", listName);
-        renderTasks(listName);
+      const listInput = taskHandler.createElement(
+        "input",
+        "",
+        ["nav--list-input"],
+        {
+          type: "text",
+          value: list,
+          readonly: true,
+        }
+      );
+
+      listContainer.addEventListener("click", () => {
+        if (!listInput.classList.contains("editable")) {
+          renderTasks(list.toLowerCase());
+        }
       });
+
+      // Renaming Lists
+      const renameListBtn = taskHandler.createElement(
+        "button",
+        "✏️",
+        ["rename-list-button"],
+        {}
+      );
+      renameListBtn.addEventListener("click", () => {
+        listInput.classList.add("editable");
+        listInput.removeAttribute("readonly");
+        listInput.value = "";
+        listInput.focus();
+      });
+
+      listInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          listInput.blur(); // Trigger blur to finalize
+        }
+      });
+
+      listInput.addEventListener("blur", () => {
+        const newListName = e.target.value.trim();
+        if (newListName && newListName !== list) {
+          renameLists(list, newListName);
+          updateDropDowns(list, newListName);
+        } else {
+          listInput.value = list;
+        }
+
+        listInput.setAttribute("readonly", true);
+        listInput.classList.remove("editable");
+      });
+
+      // Deleting Lists
+      const deleteListBtn = taskHandler.createElement(
+        "button",
+        "🗑️",
+        ["delete-list-button"],
+        {}
+      );
+      deleteListBtn.addEventListener("click", () => {
+        openDeleteListModal(list);
+      });
+
+      listContainer.appendChild(listInput);
+      listContainer.appendChild(renameListBtn);
+      listContainer.appendChild(deleteListBtn);
+
+      customLists.appendChild(listContainer);
 
       // Add to list select input
       const listOption = document.createElement("option");

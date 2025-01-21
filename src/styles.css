@@ -16,7 +16,6 @@ nav {
   background-color: rgb(75, 68, 68);
   box-shadow: 1px 1px 10px rgb(21, 20, 20);
   height: 80vh;
-  width: 15rem;
   border-radius: 0.75rem;
   padding: 1rem;
 }
@@ -24,7 +23,6 @@ nav {
 ul {
   list-style: none;
   padding: 0;
-  margin-inline: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -112,6 +110,42 @@ input[type="date"] {
   padding: 1rem;
   gap: 0.5rem;
   flex-direction: column;
+}
+
+.list-item-container {
+  align-items: center;
+  cursor: pointer;
+}
+
+.nav--list-input {
+  width: 8rem;
+  cursor: pointer;
+  pointer-events: none;
+  padding-inline: 0.5rem;
+  background: transparent;
+}
+
+.nav--list-input.editable {
+  pointer-events: auto;
+  cursor: text;
+  background-color: rgb(111, 95, 95);
+}
+
+.rename-list-button,
+.delete-list-button {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s ease;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.list-item-container:hover .rename-list-button,
+.list-item-container:hover .delete-list-button {
+  visibility: visible; /* Show buttons on hover */
+  opacity: 1;
 }
 
 .task-form--container {

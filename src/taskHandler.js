@@ -1,4 +1,4 @@
-import Task from "./task";
+import Task from "./Task";
 
 const taskHandler = (() => {
   // Variables & such
@@ -342,7 +342,13 @@ const taskHandler = (() => {
       currentTaskList.appendChild(taskElement);
     });
   };
-  return { renderTasks, addTask, createTaskFromForm };
+  return {
+    renderTasks,
+    addTask,
+    createTaskFromForm,
+    createElement,
+    allTasksArray,
+  };
 })();
 
 export default taskHandler;
