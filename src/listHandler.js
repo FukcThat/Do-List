@@ -110,6 +110,7 @@ const listHandler = (renderTasks) => {
   // Helper - Open Delete List Modal
   const openDeleteListModal = (listName) => {
     deleteListModal.classList.remove("hidden");
+    deleteListModal.classList.add("flex");
     listNamePlaceholder.textContent = listName;
   };
 
@@ -215,6 +216,8 @@ const listHandler = (renderTasks) => {
 
         listInput.setAttribute("readonly", true);
         listInput.classList.remove("editable");
+
+        console.log(listInput.classList);
       });
 
       // Deleting Lists

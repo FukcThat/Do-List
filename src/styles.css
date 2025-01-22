@@ -331,7 +331,7 @@ input[type="date"] {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background-color: #514a4a;
   padding: 2rem;
   border-radius: 5px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -339,4 +339,5 @@ input[type="date"] {
 }
 .delete-list-modal.hidden {
   display: none;
+  flex-direction: column;
 }
