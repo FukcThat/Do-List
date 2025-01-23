@@ -123,6 +123,7 @@ input[type="date"] {
   pointer-events: none;
   padding-inline: 0.5rem;
   background: transparent;
+  /* background-color: #514a4a; */
 }
 
 .nav--list-input.editable {

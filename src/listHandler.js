@@ -205,11 +205,11 @@ const listHandler = (renderTasks) => {
         }
       });
 
-      listInput.addEventListener("blur", () => {
+      listInput.addEventListener("blur", (e) => {
         const newListName = e.target.value.trim();
         if (newListName && newListName !== list) {
           renameLists(list, newListName);
-          updateDropDowns(list, newListName);
+          // updateDropDowns(list, newListName);
         } else {
           listInput.value = list;
         }
