@@ -1,6 +1,6 @@
 import taskHandler from "./taskHandler";
 
-const { allTasksArray } = taskHandler;
+const { allTasksArray, createElement } = taskHandler;
 
 const listHandler = (renderTasks) => {
   const toggleListModalBtn = document.querySelector(".list--open-modal-btn");
@@ -85,11 +85,38 @@ const listHandler = (renderTasks) => {
 
     renderLists();
     renderTasks();
+
+    updateEditDropdowns();
   };
 
   // Update Task Creation Dropdown
+  const updateNewTaskDropdown = () => {
+    taskListSelect.innerHTML = `<option value="All">All</option>`;
+    listArray.forEach((list) => {
+      const option = createElement("option", list, [], {
+        value: list.toLowerCase(),
+      });
+      taskListSelect.appendChild(option);
+    });
+  };
 
   // Update Task Expansion Dropdowns
+  const updateEditDropdowns = () => {
+    const taskDropdowns = document.querySelectorAll(".task-list-dropdown");
+
+    taskDropdowns.forEach((dropdown) => {
+      dropdown.innerHTML = "";
+
+      listArray.forEach((list) => {
+        const listOption = createElement("option", list, [], {
+          value: list.toLowerCase(),
+          selected: dropdown.dataset.currentList === list.toLowerCase(),
+        });
+
+        dropdown.appendChild(listOption);
+      });
+    });
+  };
 
   // Delete Lists
   const deleteList = (listName) => {
@@ -103,6 +130,7 @@ const listHandler = (renderTasks) => {
 
       cancelBtn.addEventListener("click", () => {
         deleteListModal.classList.add("hidden");
+        deleteListModal.classList.remove("flex");
       });
     });
   };
@@ -209,7 +237,7 @@ const listHandler = (renderTasks) => {
         const newListName = e.target.value.trim();
         if (newListName && newListName !== list) {
           renameLists(list, newListName);
-          // updateDropDowns(list, newListName);
+          updateEditDropdowns(list, newListName);
         } else {
           listInput.value = list;
         }
@@ -228,7 +256,7 @@ const listHandler = (renderTasks) => {
         {}
       );
       deleteListBtn.addEventListener("click", () => {
-        openDeleteListModal(list);
+        deleteList(list);
       });
 
       listContainer.appendChild(listInput);
@@ -243,6 +271,8 @@ const listHandler = (renderTasks) => {
       listOption.textContent = list;
       taskListSelect.appendChild(listOption);
     });
+
+    updateNewTaskDropdown();
   };
 
   allListOption.addEventListener("click", () => {
