@@ -16,7 +16,7 @@ const listHandler = (renderTasks) => {
   const listNamePlaceholder = document.querySelector("#list-name-placeholder");
   const keepTasksBtn = document.querySelector("#keep-tasks-btn");
   const deleteTasksBtn = document.querySelector("#delete-tasks-btn");
-  const cancelBtn = document.querySelector("#cancel-btn");
+  const cancelBtn = document.querySelector(".cancel-delete-list-btn");
   const taskListSelect = document.querySelector("#task-list--select");
 
   let listArray = [];
@@ -120,18 +120,25 @@ const listHandler = (renderTasks) => {
 
   // Delete Lists
   const deleteList = (listName) => {
+    // Open the Modal
     openDeleteListModal();
+
+    // Keep the tasks but delete the list
     keepTasksBtn.addEventListener("click", () => {
-      keepTasks();
+      keepTasks(listName);
+      closeDeleteListModal();
     });
 
+    // Delete List and all it's tasks
     deleteTasksBtn.addEventListener("click", () => {
-      deleteListsAndTasks();
+      deleteListsAndTasks(listName);
+      closeDeleteListModal();
+    });
 
-      cancelBtn.addEventListener("click", () => {
-        deleteListModal.classList.add("hidden");
-        deleteListModal.classList.remove("flex");
-      });
+    // Cancel Deletion
+    cancelBtn.addEventListener("click", () => {
+      console.log("Clicked Cancel");
+      closeDeleteListModal();
     });
   };
 
@@ -142,8 +149,14 @@ const listHandler = (renderTasks) => {
     listNamePlaceholder.textContent = listName;
   };
 
+  const closeDeleteListModal = () => {
+    deleteListModal.classList.add("hidden");
+    deleteListModal.classList.remove("flex");
+  };
+
   // Helper - Keep tasks of deleted list
   const keepTasks = (listName) => {
+    console.log("Deleted List but kept tasks");
     // Reset list to All for tasks in the list
     allTasksArray.forEach((task) => {
       if (task.list === listName.toLowerCase()) {
@@ -163,10 +176,14 @@ const listHandler = (renderTasks) => {
 
   // Helper - Delete Lists and all Tasks in it
   const deleteListsAndTasks = (listName) => {
+    console.log("Deleted List and tasks");
+
     //Remove the tasks
-    allTasksArray = allTasksArray.filter(
-      (task) => task.list !== listName.toLowerCase()
-    );
+    for (let i = allTasksArray.length - 1; i >= 0; i--) {
+      if (allTasksArray[i].list === listName.toLowerCase()) {
+        allTasksArray.splice(i, 1);
+      }
+    }
 
     //Remove the list
     listArray = listArray.filter((list) => list !== listName);
@@ -176,6 +193,7 @@ const listHandler = (renderTasks) => {
 
     //Close the Modal
     deleteListModal.classList.add("hidden");
+    deleteListModal.classList.remove("flex");
   };
 
   // Render Lists
@@ -256,6 +274,7 @@ const listHandler = (renderTasks) => {
         {}
       );
       deleteListBtn.addEventListener("click", () => {
+        console.log("Delete List Btn clicked");
         deleteList(list);
       });
 
