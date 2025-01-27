@@ -298,7 +298,7 @@ const taskHandler = (() => {
 
       // List Dropdown
       const listDropdown = createElement("select", "", ["task-list-dropdown"]);
-      const allLists = ["Home", "Work", "Groceries"]; // Replace with dynamic list source if available
+      const allLists = ["Home", "Work", "Groceries"];
       allLists.forEach((list) => {
         const option = createElement("option", list, [], {
           value: list.toLowerCase(),
