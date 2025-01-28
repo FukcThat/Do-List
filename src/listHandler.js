@@ -1,6 +1,6 @@
 import taskHandler from "./taskHandler";
 
-const { allTasksArray, createElement } = taskHandler;
+const { allTasksArray, createElement, listArray } = taskHandler;
 
 const listHandler = (renderTasks) => {
   const toggleListModalBtn = document.querySelector(".list--open-modal-btn");
@@ -18,8 +18,6 @@ const listHandler = (renderTasks) => {
   const deleteTasksBtn = document.querySelector("#delete-tasks-btn");
   const cancelBtn = document.querySelector(".cancel-delete-list-btn");
   const taskListSelect = document.querySelector("#task-list--select");
-
-  let listArray = [];
 
   // Toggle List creation modal
   const toggleListModal = () => {
@@ -85,7 +83,6 @@ const listHandler = (renderTasks) => {
 
     renderLists();
     renderTasks();
-
     updateEditDropdowns();
   };
 

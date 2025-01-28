@@ -1,6 +1,9 @@
+// import { listArray } from "./listHandler";
 import Task from "./Task";
 
 const taskHandler = (() => {
+  let listArray = [];
+
   // Variables & such
   const addTaskBtn = document.querySelector(".add-task-btn");
   const taskModal = document.querySelector(".task-form--container");
@@ -298,12 +301,13 @@ const taskHandler = (() => {
 
       // List Dropdown
       const listDropdown = createElement("select", "", ["task-list-dropdown"]);
-      const allLists = ["Home", "Work", "Groceries"];
-      allLists.forEach((list) => {
+      listArray.forEach((list) => {
         const option = createElement("option", list, [], {
           value: list.toLowerCase(),
-          selected: task.list === list.toLowerCase(),
         });
+
+        option.selected = list.toLowerCase() === task.list.toLowerCase();
+
         listDropdown.appendChild(option);
       });
       listDropdown.addEventListener("change", (e) =>
@@ -348,6 +352,7 @@ const taskHandler = (() => {
     createTaskFromForm,
     createElement,
     allTasksArray,
+    listArray,
   };
 })();
 
