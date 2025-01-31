@@ -284,19 +284,21 @@ input[type="date"] {
 }
 
 .priority-green::before {
-  background-color: #4caf50; /* Green */
+  background-color: #489435; /* Green */
 }
 
 .priority-yellow::before {
-  background-color: #ffeb3b; /* Yellow */
+  background-color: #ffc720; /* Yellow */
 }
 
 .priority-red::before {
-  background-color: #f44336; /* Red */
+  background-color: #9d362f; /* Red */
 }
 
 /* Chevron Button */
 .chevron-btn {
+  position: absolute;
+  right: 2rem;
   background: none;
   border: none;
   color: white;

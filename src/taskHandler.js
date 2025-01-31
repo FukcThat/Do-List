@@ -253,6 +253,7 @@ const taskHandler = (() => {
         value: task.dueDate,
         readonly: true,
       });
+      if (!dueDateElement.value) dueDateElement.classList.add("hidden");
       dueDateElement.addEventListener("input", (e) => {
         updateTask(task.id, "dueDate", e.target.value);
       });
