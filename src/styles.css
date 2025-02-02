@@ -284,7 +284,7 @@ input[type="date"] {
 }
 
 .priority-green::before {
-  background-color: #489435; /* Green */
+  background-color: #357d23; /* Green */
 }
 
 .priority-yellow::before {
