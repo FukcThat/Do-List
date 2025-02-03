@@ -177,7 +177,7 @@ input[type="date"] {
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 12px;
-  background-color: #514a4a;
+  background-color: #797676;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
 }
